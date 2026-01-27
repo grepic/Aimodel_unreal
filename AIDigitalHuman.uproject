@@ -1,0 +1,102 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "5.4",
+	"Category": "",
+	"Description": "AI Digital Human - Real-time 4K/60FPS Streaming Platform",
+	"Modules": [
+		{
+			"Name": "AIDigitalHuman",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine",
+				"CoreUObject",
+				"AIModule",
+				"AnimGraphRuntime",
+				"MetaHumanSDK"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "MetaHuman",
+			"Enabled": true
+		},
+		{
+			"Name": "MetaHumanSDK",
+			"Enabled": true
+		},
+		{
+			"Name": "ControlRig",
+			"Enabled": true
+		},
+		{
+			"Name": "FullBodyIK",
+			"Enabled": true
+		},
+		{
+			"Name": "LiveLink",
+			"Enabled": true
+		},
+		{
+			"Name": "LiveLinkControlRig",
+			"Enabled": true
+		},
+		{
+			"Name": "HairStrands",
+			"Enabled": true
+		},
+		{
+			"Name": "NiagaraFluids",
+			"Enabled": true
+		},
+		{
+			"Name": "WebSocketNetworking",
+			"Enabled": true
+		},
+		{
+			"Name": "AudioCapture",
+			"Enabled": true
+		},
+		{
+			"Name": "Text3D",
+			"Enabled": true
+		},
+		{
+			"Name": "MediaIOFramework",
+			"Enabled": true
+		},
+		{
+			"Name": "BlackmagicMedia",
+			"Enabled": true
+		},
+		{
+			"Name": "VirtualCamera",
+			"Enabled": true
+		},
+		{
+			"Name": "RemoteControl",
+			"Enabled": true
+		},
+		{
+			"Name": "RemoteControlWebInterface",
+			"Enabled": true
+		},
+		{
+			"Name": "DLSS",
+			"Enabled": true,
+			"SupportedTargetPlatforms": ["Win64"]
+		},
+		{
+			"Name": "TSR",
+			"Enabled": true
+		},
+		{
+			"Name": "RigLogic",
+			"Enabled": true
+		}
+	],
+	"TargetPlatforms": [
+		"Windows"
+	]
+}
