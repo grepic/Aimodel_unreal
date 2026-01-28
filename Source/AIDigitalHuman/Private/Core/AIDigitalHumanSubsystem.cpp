@@ -2,12 +2,15 @@
 
 #include "Core/AIDigitalHumanSubsystem.h"
 #include "AI/AIConversationManager.h"
+#include "AI/AdultPersonalitySystem.h"
 #include "Voice/VoiceSynthesisManager.h"
 #include "Chat/ChatIntegrationManager.h"
 #include "Monetization/MonetizationManager.h"
 #include "Streaming/StreamingManager.h"
 #include "Camera/CinematicCameraManager.h"
 #include "Safety/SafetyManager.h"
+#include "Environment/EnvironmentManager.h"
+#include "Character/AIDigitalHumanCharacter.h"
 #include "AIDigitalHumanModule.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
@@ -69,6 +72,8 @@ void UAIDigitalHumanSubsystem::InitializeManagers()
     StreamingManager = NewObject<UStreamingManager>(this);
     CameraManager = NewObject<UCinematicCameraManager>(this);
     SafetyManager = NewObject<USafetyManager>(this);
+    EnvironmentManager = NewObject<UEnvironmentManager>(this);
+    PersonalitySystem = NewObject<UAdultPersonalitySystem>(this);
 
     // Initialize all managers
     if (ConversationManager) ConversationManager->Initialize();
@@ -78,6 +83,21 @@ void UAIDigitalHumanSubsystem::InitializeManagers()
     if (StreamingManager) StreamingManager->Initialize();
     if (CameraManager) CameraManager->Initialize();
     if (SafetyManager) SafetyManager->Initialize();
+    if (EnvironmentManager) EnvironmentManager->Initialize();
+    if (PersonalitySystem) PersonalitySystem->Initialize();
+}
+
+void UAIDigitalHumanSubsystem::RegisterCharacter(AAIDigitalHumanCharacter* Character)
+{
+    RegisteredCharacter = Character;
+
+    // Initialize personality system with character reference
+    if (PersonalitySystem && RegisteredCharacter)
+    {
+        PersonalitySystem->SetOwnerCharacter(RegisteredCharacter);
+    }
+
+    UE_LOG(LogAIDigitalHuman, Log, TEXT("Character registered with subsystem"));
 }
 
 void UAIDigitalHumanSubsystem::SetupEventBindings()

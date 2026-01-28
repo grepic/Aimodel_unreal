@@ -219,6 +219,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnIntimacyChanged, const FString&,
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnModeChanged, EConversationMode, OldMode, EConversationMode, NewMode);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnRelationshipUpdated, const FString&, UserID, const FUserRelationship&, Relationship);
 
+class AAIDigitalHumanCharacter;
+
 /**
  * Manages personality, relationships, and conversation tone for adult content.
  */
@@ -233,6 +235,14 @@ public:
     /** Initialize the personality system */
     UFUNCTION(BlueprintCallable, Category = "Personality")
     void Initialize();
+
+    /** Set owner character reference */
+    UFUNCTION(BlueprintCallable, Category = "Personality")
+    void SetOwnerCharacter(AAIDigitalHumanCharacter* Character);
+
+    /** Get owner character */
+    UFUNCTION(BlueprintCallable, Category = "Personality")
+    AAIDigitalHumanCharacter* GetOwnerCharacter() const { return OwnerCharacter; }
 
     // ==================== Persona Management ====================
 
@@ -332,6 +342,9 @@ protected:
     void CheckAndUpdateIntimacy(const FString& UserID, FUserRelationship& Relationship);
 
 private:
+    UPROPERTY()
+    AAIDigitalHumanCharacter* OwnerCharacter = nullptr;
+
     UPROPERTY()
     FAdultPersona CurrentPersona;
 

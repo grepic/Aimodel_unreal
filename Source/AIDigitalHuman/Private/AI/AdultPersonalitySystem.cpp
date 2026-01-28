@@ -1,6 +1,7 @@
 // Copyright 2024 AI Digital Human Project. All Rights Reserved.
 
 #include "AI/AdultPersonalitySystem.h"
+#include "Character/AIDigitalHumanCharacter.h"
 #include "AIDigitalHumanModule.h"
 
 UAdultPersonalitySystem::UAdultPersonalitySystem()
@@ -79,6 +80,12 @@ void UAdultPersonalitySystem::Initialize()
     UE_LOG(LogAIDigitalHuman, Log, TEXT("Adult Personality System initialized for: %s"), *CurrentPersona.Name);
 
     bIsInitialized = true;
+}
+
+void UAdultPersonalitySystem::SetOwnerCharacter(AAIDigitalHumanCharacter* Character)
+{
+    OwnerCharacter = Character;
+    UE_LOG(LogAIDigitalHuman, Log, TEXT("Adult Personality System connected to character"));
 }
 
 void UAdultPersonalitySystem::SetPersona(const FAdultPersona& NewPersona)

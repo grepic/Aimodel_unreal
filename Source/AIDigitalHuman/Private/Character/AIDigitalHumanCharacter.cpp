@@ -1,11 +1,15 @@
 // Copyright 2024 AI Digital Human Project. All Rights Reserved.
 
 #include "Character/AIDigitalHumanCharacter.h"
+#include "Character/ClothingSimulationManager.h"
+#include "Animation/AdvancedBodyPhysics.h"
+#include "Core/AIDigitalHumanSubsystem.h"
 #include "AIDigitalHumanModule.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/AudioComponent.h"
 #include "Animation/AnimInstance.h"
 #include "GroomComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 AAIDigitalHumanCharacter::AAIDigitalHumanCharacter()
 {
@@ -44,6 +48,12 @@ AAIDigitalHumanCharacter::AAIDigitalHumanCharacter()
         *VerificationFlags.GenerationTimestamp.ToString(),
         VerificationFlags.bIsFullySynthetic ? 1 : 0);
     VerificationFlags.VerificationHash = FMD5::HashAnsiString(*HashInput);
+
+    // Create clothing simulation manager
+    ClothingManager = CreateDefaultSubobject<UClothingSimulationManager>(TEXT("ClothingManager"));
+
+    // Create advanced body physics
+    BodyPhysics = CreateDefaultSubobject<UAdvancedBodyPhysics>(TEXT("BodyPhysics"));
 }
 
 void AAIDigitalHumanCharacter::BeginPlay()
@@ -58,6 +68,27 @@ void AAIDigitalHumanCharacter::BeginPlay()
     // Initialize blink timer
     NextBlinkTime = FMath::RandRange(AverageBlinkInterval - BlinkIntervalVariance,
         AverageBlinkInterval + BlinkIntervalVariance);
+
+    // Initialize clothing manager
+    if (ClothingManager)
+    {
+        ClothingManager->Initialize(this);
+    }
+
+    // Initialize body physics
+    if (BodyPhysics)
+    {
+        BodyPhysics->Initialize(GetMesh());
+    }
+
+    // Register with subsystem
+    if (UGameInstance* GameInstance = UGameplayStatics::GetGameInstance(this))
+    {
+        if (UAIDigitalHumanSubsystem* Subsystem = GameInstance->GetSubsystem<UAIDigitalHumanSubsystem>())
+        {
+            Subsystem->RegisterCharacter(this);
+        }
+    }
 }
 
 void AAIDigitalHumanCharacter::Tick(float DeltaTime)
@@ -66,6 +97,12 @@ void AAIDigitalHumanCharacter::Tick(float DeltaTime)
 
     UpdateEmotionBlend(DeltaTime);
     UpdateEyeBehavior(DeltaTime);
+
+    // Update body physics
+    if (BodyPhysics)
+    {
+        BodyPhysics->UpdatePhysics(DeltaTime);
+    }
 }
 
 void AAIDigitalHumanCharacter::SetEmotion(EDigitalHumanEmotion NewEmotion, float Intensity, float BlendTime)

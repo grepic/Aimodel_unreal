@@ -11,6 +11,8 @@ class UGroomComponent;
 class USkeletalMeshComponent;
 class UAudioComponent;
 class UAIDigitalHumanAnimInstance;
+class UClothingSimulationManager;
+class UAdvancedBodyPhysics;
 
 /**
  * Eye state for realistic eye behavior
@@ -134,6 +136,18 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Digital Human|Verification")
     bool VerifyIsSynthetic() const { return VerificationFlags.IsValid(); }
 
+    // ==================== Clothing System ====================
+
+    /** Get the clothing simulation manager */
+    UFUNCTION(BlueprintCallable, Category = "Digital Human|Clothing")
+    UClothingSimulationManager* GetClothingManager() const { return ClothingManager; }
+
+    // ==================== Body Physics ====================
+
+    /** Get the advanced body physics system */
+    UFUNCTION(BlueprintCallable, Category = "Digital Human|Physics")
+    UAdvancedBodyPhysics* GetBodyPhysics() const { return BodyPhysics; }
+
 protected:
     // ==================== Components ====================
 
@@ -160,6 +174,14 @@ protected:
     /** Voice audio component */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     UAudioComponent* VoiceAudioComponent;
+
+    /** Clothing simulation manager */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+    UClothingSimulationManager* ClothingManager;
+
+    /** Advanced body physics system */
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+    UAdvancedBodyPhysics* BodyPhysics;
 
     // ==================== Emotion Configuration ====================
 

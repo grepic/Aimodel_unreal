@@ -14,6 +14,9 @@ class UMonetizationManager;
 class UStreamingManager;
 class UCinematicCameraManager;
 class USafetyManager;
+class UEnvironmentManager;
+class UAdultPersonalitySystem;
+class AAIDigitalHumanCharacter;
 
 /**
  * Main subsystem for the AI Digital Human.
@@ -63,6 +66,22 @@ public:
     /** Get the Safety Manager */
     UFUNCTION(BlueprintCallable, Category = "AI Digital Human")
     USafetyManager* GetSafetyManager() const { return SafetyManager; }
+
+    /** Get the Environment Manager */
+    UFUNCTION(BlueprintCallable, Category = "AI Digital Human")
+    UEnvironmentManager* GetEnvironmentManager() const { return EnvironmentManager; }
+
+    /** Get the Adult Personality System */
+    UFUNCTION(BlueprintCallable, Category = "AI Digital Human")
+    UAdultPersonalitySystem* GetPersonalitySystem() const { return PersonalitySystem; }
+
+    /** Register the character instance */
+    UFUNCTION(BlueprintCallable, Category = "AI Digital Human")
+    void RegisterCharacter(AAIDigitalHumanCharacter* Character);
+
+    /** Get the registered character */
+    UFUNCTION(BlueprintCallable, Category = "AI Digital Human")
+    AAIDigitalHumanCharacter* GetCharacter() const { return RegisteredCharacter; }
 
     // ==================== Quick Access Methods ====================
 
@@ -178,6 +197,15 @@ private:
 
     UPROPERTY()
     USafetyManager* SafetyManager;
+
+    UPROPERTY()
+    UEnvironmentManager* EnvironmentManager;
+
+    UPROPERTY()
+    UAdultPersonalitySystem* PersonalitySystem;
+
+    UPROPERTY()
+    AAIDigitalHumanCharacter* RegisteredCharacter;
 
     bool bIsReady = false;
     bool bEmergencyStopped = false;
